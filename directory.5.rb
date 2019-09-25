@@ -25,12 +25,8 @@ def print_header
   puts "-------------"
 end
 def print(students)
-  
-  #find l
-  puts students.map { |p| p[:name] }.uniq
-  
   students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{student[:name]} (#{student[:cohort]} cohort)".center(40)
   end
 end
 	

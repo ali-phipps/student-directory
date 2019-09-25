@@ -7,13 +7,25 @@ def input_students
   students = []
   # get the first name
   name = gets.chomp
+   puts "Enter Cohort"
+   cohort = gets.chomp.to_sym
+   if cohort.empty?
+     cohort = :November
+     puts cohort
+   end
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: cohort}
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
+      puts "Enter Cohort"
+   cohort = gets.chomp.to_sym
+   if cohort.empty?
+     cohort = :November
+     puts cohort
+   end
   end
   # return the array of students
   students
@@ -26,12 +38,13 @@ def print_header
 end
 def print(students)
   
-  #find l
-  puts students.map { |p| p[:name] }.uniq
-  
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  cohorts = students.map { |p| p[:cohort] }.uniq
+  cohorts.each do |x|
+    temp_students = students.select { |p| p[:cohort] == x}
+    temp_students.each do |student|
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
+end
 end
 	
 def print_footer(names)

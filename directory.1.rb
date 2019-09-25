@@ -19,18 +19,14 @@ def input_students
   students
 end
 	
-# and then print them
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 def print(students)
-  
-  #find l
-  puts students.map { |p| p[:name] }.uniq
-  
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student,ind|
+    puts "#{ind}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 	
