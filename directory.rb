@@ -1,8 +1,9 @@
+require 'csv'
 @students = [] # an empty array accessible to all methods
 
 def add_to_students(name,cohort)
   # add the student hash to the array
-    @students << {name: name, cohort: cohort}
+  @students << {name: name, cohort: cohort}
 end
 
 def input_students
@@ -21,16 +22,12 @@ def input_students
 end
 
 def load_students_from_file(filename="students.csv")
-  
-  
   if File.exists?(filename) # if it exists
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      add_to_students(name,cohort.to_sym)
-    end
-    file.close
-    puts "loaded file successfully"
+  CSV.foreach(filename) do |line|
+     name, cohort = line
+     add_to_students(name,cohort.to_sym)
+  end
+  puts "loaded file successfully"
   else
     puts "Sorry, #{filename} doesn't exist."
   end
@@ -80,13 +77,9 @@ end
 
 def save_students
   file_name = get_file_name
-  # open the file for writing
-  File.open(file_name, "w") do |file|
-    # iterate over the array of students
+  CSV.open(file_name,"wb") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+     csv << [student[:name], student[:cohort]]
     end
     puts "file saved successfully"
   end
@@ -124,7 +117,7 @@ def interactive_menu
     process(STDIN.gets.chomp)
   end
 end
-	
+
 interactive_menu
 	
 	
