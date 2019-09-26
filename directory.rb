@@ -8,8 +8,6 @@ end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  # create an empty array
-  @students = []
   # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
@@ -23,12 +21,17 @@ def input_students
 end
 
 def load_students_from_file(filename="students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add_to_students(name,cohort.to_sym)
+  if File.exists?(filename) # if it exists
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      add_to_students(name,cohort.to_sym)
+    end
+    file.close
+    puts "loaded file successfully"
+  else
+    puts "Sorry, #{filename} doesn't exist."
   end
-  file.close
 end
 
 def initialise_students
@@ -65,6 +68,7 @@ def show_students
   print_header
   print_students_list(@students)
   print_footer(@students)
+  puts "show students complete"
 end
 
 def save_students
@@ -77,6 +81,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "file saved successfully"
 end
 
 def print_menu
@@ -105,8 +110,8 @@ def process(selection)
 end
 	
 def interactive_menu
+  initialise_students
   loop do
-    initialise_students
     print_menu
     process(STDIN.gets.chomp)
   end
