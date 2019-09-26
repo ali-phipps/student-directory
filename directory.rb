@@ -22,23 +22,23 @@ def input_students
   end
 end
 
-def load_students(filename="students.csv")
+def load_students_from_file(filename="students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-     add_to_students(name,cohort.to_sym)
+    name, cohort = line.chomp.split(',')
+    add_to_students(name,cohort.to_sym)
   end
   file.close
 end
 
-def try_load_students
+def initialise_students
   filename = ARGV.first # first argument from the command line
-  if filename.nil? # 
+  if filename.nil? # no file provided so load default
     filename = "students.csv"
   end
   if File.exists?(filename) # if it exists
-    load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
+    load_students_from_file(filename)
+    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
@@ -52,8 +52,6 @@ def print_header
 end
 
 def print_students_list(students)
-  
-
   @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
@@ -81,19 +79,13 @@ def save_students
   file.close
 end
 
-
-
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
   puts "9. Exit" # 9 because we'll be adding more items  
-
 end
-	
-
 
 def process(selection)
   case selection
@@ -102,20 +94,19 @@ def process(selection)
     when "2"
       show_students
     when "3"
-  save_students
-      when "4"
-  load_students
-      when "9"
+      save_students
+    when "4"
+      load_students_from_file
+    when "9"
       exit
     else
       puts "I don't know what you mean, try again"
   end
 end
 	
-
 def interactive_menu
   loop do
-    try_load_students
+    initialise_students
     print_menu
     process(STDIN.gets.chomp)
   end
