@@ -81,15 +81,15 @@ end
 def save_students
   file_name = get_file_name
   # open the file for writing
-  file = File.open(file_name, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(file_name, "w") do |file|
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
+    puts "file saved successfully"
   end
-  file.close
-  puts "file saved successfully"
 end
 
 def print_menu
