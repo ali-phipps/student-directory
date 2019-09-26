@@ -21,6 +21,8 @@ def input_students
 end
 
 def load_students_from_file(filename="students.csv")
+  
+  
   if File.exists?(filename) # if it exists
     file = File.open(filename, "r")
     file.readlines.each do |line|
@@ -71,9 +73,15 @@ def show_students
   puts "show students complete"
 end
 
+def get_file_name
+  puts "Please enter a file name"
+  return gets.chomp
+end
+
 def save_students
+  file_name = get_file_name
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(file_name, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -87,8 +95,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a csv file"
+  puts "4. Load the list from a csv file"
   puts "9. Exit" # 9 because we'll be adding more items  
 end
 
@@ -101,7 +109,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students_from_file
+      load_students_from_file(get_file_name)
     when "9"
       exit
     else
